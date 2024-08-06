@@ -1,0 +1,72 @@
+---
+
+# Creating a File with Specific Name and Content.
+
+## Objective
+Create a file that contains only the string "42" and has a specific name that includes special characters, including double quotes at the start and end of the file name.
+
+## File Name
+The file name must be exactly:
+```
+"\?$*'MaRViN'*$?\"
+```
+Note: The double quotes `"` at the beginning and end are part of the file name.
+
+## Content
+The file should contain the text:
+```
+42
+```
+
+## Steps to Create the File
+
+1. **Open your terminal**.
+2. **Use the `echo` command** to create the file with the specific content and name.
+
+### Command to Create the File
+
+```
+echo "42" > '"\?$*'\''MaRViN'\''*$?\"'
+```
+
+### Explanation of the Command
+
+- `echo "42"`: Outputs the string "42".
+
+- `>`: Redirects the output to a file.
+
+- `"\?$*`: Begins the file name with double quotes and the first set of special characters. The outer single quotes allow the shell to interpret the content literally.
+
+- `'\''`: Ends the current single-quoted string, escapes a single quote, and starts a new single-quoted string.
+
+- `'MaRViN'`: The literal part of the file name.
+
+- `'\''`: Ends the current single-quoted string, escapes a single quote, and starts a new single-quoted string.
+
+- `*$?\"`: Completes the file name with the remaining special characters and the closing double quote.
+
+### Verifying the File
+
+To verify the file has been created correctly, use the following command:
+
+```
+ls -lRa *MaRV* | cat -e
+```
+
+This command will:
+
+- `ls -lRa *MaRV*`: List the details of files matching the pattern `*MaRV*` recursively, showing all files and directories.
+- `|`: Pipe the output of the `ls` command to the next command.
+- `cat -e`: Display the content with end-of-line markers (`$`), helping to ensure the file name and content are correct.
+
+## Example Output
+
+Running the verification command should give an output similar to:
+
+```
+-rw---xr-- 1 user group 3 Jul 24 12:34 '"\?$*'MaRViN'*$?\"'$
+```
+
+This confirms that the file named `"\?$*'MaRViN'*$?\"` has been created with the correct name and contains the string "42".
+
+---

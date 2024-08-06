@@ -1,0 +1,99 @@
+# `mac.sh` - Display MAC Addresses
+
+## Overview
+
+The `mac.sh` script is designed to extract and display the MAC addresses of network interfaces on a Linux machine. Each MAC address will be followed by a line break.
+
+## Script Content
+
+``
+#! /bin/sh
+
+ifconfig | grep -Eo '..\(\:..\){5}'
+
+``
+
+## Instructions
+
+### 1. Creating the Script File
+
+1. **Open Terminal**:
+   - Open your terminal application on your Linux system.
+
+2. **Create the Script File**:
+   - Use your preferred text editor to create the file. For example, to use `vim`, type:
+     ```bash
+     vim mac.sh
+     ```
+   - Alternatively, you can use `nano`:
+     ```bash
+     nano mac.sh
+     ```
+
+3. **Enter the Script Content**:
+   - Paste the following content into the editor:
+     ```sh
+     #! /bin/sh
+
+     ifconfig | grep -Eo '..(:..){5}'
+     ```
+   - **Explanation**:
+     - `#! /bin/sh`: Specifies the script should be run with the Bourne shell.
+     
+     - `ifconfig`: Lists all network interfaces and their details.
+     
+     - `grep -Eo '..(:..){5}'`: Uses extended regular expressions to extract and display MAC addresses.
+
+4. **Save and Exit**:
+   - For `vim`: Press `Esc`, type `:wq`, and press `Enter`.
+   
+   - For `nano`: Press `Ctrl + X`, then `Y`, and `Enter` to save and exit.
+
+### 2. Making the Script Executable
+
+1. **Change File Permissions**:
+   - In the terminal, make the script executable by typing:
+   
+     ```
+     chmod +x mac.sh
+     
+     ```
+
+### 3. Running the Script
+
+1. **Execute the Script**:
+   - Run the script by typing:
+   
+     ```
+     ./mac.sh
+     
+     ```
+
+2. **View the Output**:
+   - The script will display each MAC address on a new line, extracted from the output of `ifconfig`.
+
+## Explanation of Regular Expression
+
+- **Pattern**: `..\(\:..\){5}`
+
+  - `..`: Matches any two characters (representing hexadecimal digits).
+  
+  - `(\:..){5}`: Matches five occurrences of a colon followed by two characters, representing the standard MAC address format (e.g, 2d:15). "\:" the slash is used with ':' so the latter would be interpreted as a colon for formatting rather than a command seperator.
+  
+  -'\(  \)' is used for grouping a specific set of commands or criteria you want to execute within your command line.
+
+## Example Output
+
+Assuming your machine has two network interfaces with MAC addresses `00:1A:2B:3C:4D:5E` and `01:2B:3C:4D:5E:6F`, the script output will be:
+
+```
+00:1A:2B:3C:4D:5E
+01:2B:3C:4D:5E:6F
+```
+
+## Notes
+
+- Ensure that `ifconfig` is installed on your system. If not, you might need to install the `net-tools` package.
+- The `grep -Eo` command uses extended regular expressions to filter and display only the MAC addresses.
+
+---

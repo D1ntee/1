@@ -1,0 +1,187 @@
+### README Guide for `ft_strdup` Implementation
+
+#### Introduction
+
+This guide provides a detailed explanation of the custom implementation of the `ft_strdup` function, which replicates the behavior of the standard `strdup` function in C. It covers the concepts involved, the function definition, a step-by-step explanation of the code, and instructions on how to compile and test it using the terminal.
+
+#### Function Definition
+
+**Function Prototype:**
+```
+char *ft_strdup(char *src);
+
+```
+
+**Description:**
+
+The `ft_strdup` function takes a single argument, `src`, which is a pointer to a null-terminated string. It allocates sufficient memory to create a duplicate of the string `src`, copies the string into the newly allocated memory, and returns a pointer to the duplicated string. If memory allocation fails, the function returns `NULL`.
+
+#### Code Explanation
+
+Here is the complete code for the `ft_strdup` function:
+
+```
+#include <stdlib.h>
+
+char *ft_strdup(char *src) {
+    int i;
+    int j;
+    char *ptr;
+
+    i = 0;
+    j = 0;
+
+    // Calculate the length of the source string
+    while (*(src + i)) {
+        i++;
+    }
+
+    // Allocate memory for the duplicated string (+1 for the null terminator)
+    ptr = (char *)malloc((i + 1) * sizeof(char));
+    if (ptr == NULL) {
+        return NULL;
+    }
+
+    // Copy the string from src to ptr
+    while (*(src + j)) {
+        *(ptr + j) = *(src + j);
+        j++;
+    }
+
+    // Add the null terminator to the duplicated string
+    *(ptr + j) = '\0';
+
+    return ptr;
+}
+```
+
+**Step-by-Step Explanation:**
+
+1. **Header Inclusion:**
+   ```
+   #include <stdlib.h>
+   ```
+   The `stdlib.h` header file is included to use the `malloc` function for memory allocation.
+
+2. **Variable Declarations:**
+   ```
+   int i;
+   int j;
+   char *ptr;
+   
+   ```
+   Three variables are declared:
+   - `i`: Used to find the length of the source string.
+   - `j`: Used to copy the source string to the new memory.
+   - `ptr`: Pointer to hold the address of the newly allocated memory.
+
+3. **Initialize Variables:**
+   ```
+   i = 0;
+   j = 0;
+   
+   ```
+   Both `i` and `j` are initialized to 0.
+
+4. **Calculate the Length of the Source String:**
+   ```c
+   while (*(src + i)) {
+       i++;
+   }
+   ```
+   This loop iterates through the source string `src` until it reaches the null terminator, incrementing `i` with each iteration. After the loop, `i` holds the length of the source string.
+
+5. **Memory Allocation:**
+   ```c
+   ptr = (char *)malloc((i + 1) * sizeof(char));
+   if (ptr == NULL) {
+       return NULL;
+   }
+   ```
+   Memory is allocated to hold the duplicated string, including space for the null terminator (`i + 1`). If memory allocation fails, the function returns `NULL`.
+
+6. **Copy the Source String to the New Memory:**
+   ```c
+   while (*(src + j)) {
+       *(ptr + j) = *(src + j);
+       j++;
+   }
+   ```
+   This loop copies each character from the source string `src` to the new memory location `ptr`.
+
+7. **Add the Null Terminator:**
+   ```c
+   *(ptr + j) = '\0';
+   ```
+   After copying all characters, the null terminator is added to the end of the new string.
+
+8. **Return the Pointer to the Duplicated String:**
+   ```c
+   return ptr;
+   ```
+
+#### How to Compile and Test
+
+**Step-by-Step Instructions:**
+
+1. **Open the Terminal:**
+   Open your terminal application.
+
+2. **Create the Source File:**
+   Create a file named `ft_strdup.c` and copy the function code into it.
+
+   ```sh
+   nano ft_strdup.c
+   ```
+
+3. **Write the `main` Function for Testing:**
+   Add the following `main` function to the same file for testing purposes:
+
+   ```c
+   #include <unistd.h>
+   #include <stdlib.h>
+
+   char *ft_strdup(char *src);
+
+   int main() {
+       char *str;
+       char *c;
+       int i;
+
+       i = 0;
+       str = "I am a duplicate";
+       c = ft_strdup(str);
+
+       while (c[i] != '\0') {
+           write(1, c + i, 1);
+           i++;
+       }
+
+       return 0;
+   }
+   ```
+
+4. **Save and Exit:**
+   Save the file and exit the editor (in Nano, press `CTRL + X`, then `Y`, then `Enter`).
+
+5. **Compile the Program:**
+   Use `gcc` to compile the program:
+
+   ```sh
+   gcc -Wall -Wextra -Werror -o ft_strdup ft_strdup.c
+   ```
+
+6. **Run the Compiled Program:**
+   Execute the compiled program to test the `ft_strdup` function:
+
+   ```sh
+   ./ft_strdup
+   ```
+
+   You should see the following output:
+
+   ```
+   I am a duplicate
+   ```
+
+####

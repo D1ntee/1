@@ -1,0 +1,91 @@
+---
+
+# `ft_abs.h` - Header File for ABS Macro
+
+## Overview
+
+This project involves a header file `ft_abs.h` that defines a macro for calculating the absolute value of a given number. The macro `ABS` is designed to replace its argument with its absolute value, ensuring that the result is always non-negative.
+
+## Purpose
+
+The `ABS` macro is used to compute the absolute value of a number. The absolute value of a number is its distance from zero on the number line, which is always non-negative. For example, the absolute value of `-5` is `5`, and the absolute value of `5` is `5`.
+
+## Header File: `ft.h`
+
+### Macro Definition
+
+The header file `ft.h` contains the following macro definition:
+
+```
+#ifndef FT_H
+#define FT_H
+
+#define ABS(Value) ((Value) < 0 ? -(Value) : (Value))
+
+#endif
+
+```
+
+### Explanation
+
+- **Macro Name**: `ABS`
+- **Argument**: `Value` - This is the number or expression whose absolute value is to be computed.
+
+- **Definition**: `((Value) < 0 ? -(Value) : (Value))`
+
+  - **`(Value) < 0`**: Checks if `Value` is less than zero.
+  
+  - **`-(Value)`**: If `Value` is negative, negate it to make it positive.
+  
+  - **`(Value)`**: If `Value` is non-negative, it is returned as is.
+
+### Why Parentheses?
+
+Parentheses are used around `Value` and in the macro expression to:
+- Ensure correct operator precedence.
+- Handle complex expressions correctly.
+- Avoid unexpected results when the macro is used with expressions.
+
+## Usage
+
+To use the `ABS` macro, include the `ft.h` header file in your C source file and use the macro to compute absolute values. Here’s an example of how to use it:
+
+### Example
+
+```c
+#include <stdio.h>
+#include "ft.h"
+
+int main() {
+    int a = -10;
+    int b = 5;
+    
+    printf("Absolute value of %d is %d\n", a, ABS(a)); // Output: 10
+    printf("Absolute value of %d is %d\n", b, ABS(b)); // Output: 5
+    
+    return 0;
+}
+```
+
+### Compilation Instructions
+
+1. **Save** the header file `ft.h` in the same directory as your C source files.
+2. **Compile** your C source files using `gcc`. For example, if your source file is named `main.c`:
+   ```
+   gcc -o my_program main.c
+   ```
+3. **Run** the compiled program:
+   ```
+   ./my_program
+   ```
+
+## Notes
+
+- Ensure that `ft.h` is correctly included in your source files.
+- The macro `ABS` handles integer values and expressions. Ensure that the argument provided is valid and does not lead to undefined behavior.
+
+## Additional Information
+
+For more details on macros and their usage in C, refer to the C programming language documentation and resources on preprocessor directives.
+
+---

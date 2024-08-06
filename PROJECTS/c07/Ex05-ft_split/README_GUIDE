@@ -1,0 +1,239 @@
+Sure, let’s delve deeper into each part of the code with a thorough breakdown:
+
+---
+
+# `ft_split` Function: Detailed Explanation
+
+## Overview
+
+The `ft_split` function takes a string and a set of delimiter characters and returns an array of strings, each representing a substring between the delimiters. This README explains each part of the code, including the purpose and functionality of each component, and provides detailed instructions for compiling and running the program.
+
+## Code Breakdown
+
+### Header Files
+
+```
+#include <unistd.h>
+#include <stdlib.h>
+```
+
+- **`unistd.h`**: Provides the declaration for the `write` function, which is used for output.
+- **`stdlib.h`**: Includes functions for dynamic memory allocation, such as `malloc` and `free`.
+
+### `ft_putstr` Function
+
+```
+void ft_putstr(char *str) {
+    int i = 0;
+    while (str[i] != '\0') {
+        write(1, &str[i], 1);
+        i++;
+    }
+}
+```
+
+- **Purpose**: Outputs a string to the standard output (typically the terminal).
+- **Detailed Explanation**:
+  - **Variable `i`**: Used to index through each character of the string `str`.
+  - **`while (str[i] != '\0')`**: Loops through each character of the string until the null terminator `'\0'` is encountered.
+  - **`write(1, &str[i], 1)`**: Writes one character at a time to the file descriptor `1` (standard output).
+  - **`i++`**: Advances to the next character.
+
+### `is_sep` Function
+
+```
+int is_sep(char c, char *charset) {
+    int i = 0;
+    while (charset[i] != '\0') {
+        if (c == charset[i]) {
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
+```
+
+- **Purpose**: Checks if a given character `c` is in the set of delimiter characters specified by `charset`.
+- **Detailed Explanation**:
+  - **Variable `i`**: Used to iterate over the `charset` string.
+  - **`while (charset[i] != '\0')`**: Iterates through each character in the `charset`.
+  - **`if (c == charset[i])`**: Compares the character `c` with the current character in `charset`. If they match, it returns `1`.
+  - **`return 0`**: If the character `c` is not found in `charset`, the function returns `0`.
+
+### `ft_nofstrs` Function
+
+```
+int ft_nofstrs(char *str, char *charset) {
+    int counter = 0;
+    int i = 0;
+
+    while (str[i] != '\0') {
+        while (str[i] != '\0' && is_sep(str[i], charset)) {
+            i++;
+        }
+        if (str[i] != '\0') {
+            counter++;
+            while (str[i] != '\0' && !is_sep(str[i], charset)) {
+                i++;
+            }
+        }
+    }
+    return counter;
+}
+```
+
+- **Purpose**: Counts the number of substrings in `str` separated by characters in `charset`.
+- **Detailed Explanation**:
+  - **Variable `counter`**: Keeps track of the number of substrings found.
+  - **Variable `i`**: Index variable used to traverse the input string `str`.
+  - **`while (str[i] != '\0')`**: Loops through the entire string `str`.
+    - **Inner `while (str[i] != '\0' && is_sep(str[i], charset))`**: Skips over delimiter characters.
+    - **`if (str[i] != '\0')`**: Checks if the current position is not the end of the string.
+      - **`counter++`**: Increments the counter for each new substring found.
+      - **`while (str[i] != '\0' && !is_sep(str[i], charset))`**: Advances `i` through the substring until the next delimiter or end of the string.
+
+### `ft_split` Function
+
+```
+char **ft_split(char *str, char *charset) {
+    char **arr;
+    int size = ft_nofstrs(str, charset);
+    int i = 0, j = 0, word_len, p;
+
+    arr = (char **)malloc((size + 1) * sizeof(char *));
+    if (!arr) {
+        return NULL;
+    }
+
+    while (str[i] != '\0' && j < size) {
+        while (str[i] != '\0' && is_sep(str[i], charset)) {
+            i++;
+        }
+
+        word_len = 0;
+        while (str[i + word_len] != '\0' && !is_sep(str[i + word_len], charset)) {
+            word_len++;
+        }
+
+        if (word_len > 0) {
+            arr[j] = (char *)malloc((word_len + 1) * sizeof(char));
+            if (!arr[j]) {
+                while (j > 0) {
+                    free(arr[--j]);
+                }
+                free(arr);
+                return NULL;
+            }
+
+            p = 0;
+            while (p < word_len) {
+                arr[j][p] = str[i + p];
+                p++;
+            }
+            arr[j][p] = '\0';
+            j++;
+        }
+
+        i += word_len;
+    }
+
+    arr[j] = NULL;
+    return arr;
+}
+```
+
+- **Purpose**: Splits the input string `str` into an array of substrings based on the delimiters in `charset`.
+- **Detailed Explanation**:
+
+  - **Variable `arr`**: Array of pointers to hold the substrings.
+  
+  - **Variable `size`**: Number of substrings, determined by `ft_nofstrs`.
+  
+  - **Variables `i`, `j`**: Index variables for traversing the input string and the result array, respectively.
+  
+  - **Variable `word_len`**: Length of the current substring.
+  
+  - **Variable `p`**: Index variable for copying characters into the substring.
+  
+  - **`arr = (char **)malloc((size + 1) * sizeof(char *))`**: Allocates memory for the array of string pointers. `size + 1` accounts for the NULL terminator.
+  
+  - **Memory Check**: Returns `NULL` if memory allocation fails.
+  - **Outer `while (str[i] != '\0' && j < size)`**: Processes each substring.
+  
+    - **Inner `while (str[i] != '\0' && is_sep(str[i], charset))`**: Skips delimiters.
+    
+    - **`word_len = 0; while (str[i + word_len] != '\0' && !is_sep(str[i + word_len], charset))`**: Calculates the length of the substring.
+    
+    - **`arr[j] = (char *)malloc((word_len + 1) * sizeof(char))`**: Allocates memory for the substring.
+    
+      - **Memory Check**: Frees previously allocated memory and returns `NULL` if allocation fails.
+      
+    - **`while (p < word_len)`**: Copies characters from `str` to `arr[j]`.
+    
+    - **`arr[j][p] = '\0'`**: Null-terminates the substring.
+    
+    - **`i += word_len`**: Advances to the next segment of the input string.
+    
+  - **`arr[j] = NULL`**: Sets the last element of `arr` to `NULL` to mark the end of the array.
+
+### `main` Function
+
+```
+int main(void) {
+    char *str = "apple,banana/tomato;melon'orange";
+    char *charset = "',;|\\?/";
+    char **r = ft_split(str, charset);
+    int i;
+
+    if (r) {
+        i = 0;
+        while (r[i] != NULL) {
+            ft_putstr(r[i]);
+            write(1, "\n", 1);
+            i++;
+        }
+        free(r);
+    }
+
+    return 0;
+}
+```
+
+- **Purpose**: Demonstrates the use of `ft_split` by splitting a test string and printing each result.
+
+- **Detailed Explanation**:
+  - **Variables `str` and `charset`**: Initialize with a test string and delimiters.
+  
+  - **`char **r`**: Holds the result from `ft_split`.
+  
+  - **`if (r)`**: Checks if `ft_split` successfully allocated memory and returned a valid result.
+  
+    - **`while (r[i] != NULL)`**: Prints each substring followed by a newline.
+    
+    - **`free(r)`**: Frees the memory allocated for the result array.
+
+## Compilation and Execution
+
+1. **Compile**:
+
+   To compile the code using `gcc`, use the following command:
+
+   ```
+   gcc -Wall -Wextra -Werror -o ft_split ft_split.c
+   ```
+
+   - **`-Wall`**: Enables all standard warning messages.
+   - **`-Wextra`**: Enables additional warning messages.
+   - **`-Werror`**: Treats all warnings as errors.
+   - **`-o ft_split`**: Specifies the output executable name.
+
+2. **Run**:
+
+   Execute the compiled program with:
+
+   ``
+   ./ft_split
+   ``
+---
+  

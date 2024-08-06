@@ -1,0 +1,149 @@
+
+# Project - Header File Implementation in C
+
+## Purpose
+
+The purpose of this project is to create a header file, `ft.h`, that contains function prototypes for a set of utility functions. These functions include character and string operations, as well as a function to swap integers. This project aims to demonstrate the use of header files in C to organize and declare function prototypes for better code modularity and reusability.
+
+## Programming Concepts Used
+
+- **Header Files**: Used to declare function prototypes that can be used in multiple source files.
+- **Function Prototypes**: Provide the compiler with information about the functions, allowing for type checking and proper compilation.
+
+## Header File: `ft.h`
+
+```
+#ifndef FT_H
+#define FT_H
+
+void ft_putchar(char c);
+void ft_swap(int *a, int *b);
+void ft_putstr(char *str);
+int ft_strlen(char *str);
+int ft_strcmp(char *s1, char *s2);
+
+#endif
+```
+
+### Function Prototypes
+
+- `void ft_putchar(char c);`
+  - **Purpose**: Prototype for a function that prints a single character to the standard output.
+  - **Parameters**: 
+    - `c` (char): The character to be printed.
+
+- `void ft_swap(int *a, int *b);`
+  - **Purpose**: Prototype for a function that swaps the values of two integers.
+  - **Parameters**: 
+    - `a` (int*): Pointer to the first integer.
+    - `b` (int*): Pointer to the second integer.
+
+- `void ft_putstr(char *str);`
+  - **Purpose**: Prototype for a function that prints a string to the standard output.
+  - **Parameters**: 
+    - `str` (char*): Pointer to the null-terminated string to be printed.
+
+- `int ft_strlen(char *str);`
+  - **Purpose**: Prototype for a function that returns the length of a string.
+  - **Parameters**: 
+    - `str` (char*): Pointer to the null-terminated string.
+  - **Returns**: The length of the string (int).
+
+- `int ft_strcmp(char *s1, char *s2);`
+  - **Purpose**: Prototype for a function that compares two strings lexicographically.
+  - **Parameters**: 
+    - `s1` (char*): Pointer to the first null-terminated string.
+    - `s2` (char*): Pointer to the second null-terminated string.
+  - **Returns**: 
+    - `0` if the strings are equal.
+    - A negative value if `s1` is less than `s2`.
+    - A positive value if `s1` is greater than `s2`.
+
+## Compilation and Usage
+
+To use the header file and compile the code, follow these steps:
+
+1. Save your header file as `ft.h`.
+2. Create a main source file (e.g., `main.c`) that includes `ft.h` and defines the declared functions.
+3. Implement the functions in `main.c` or in separate source files (e.g., `ft_putchar.c`, `ft_swap.c`, etc.).
+
+4. Compile the code using `gcc`:
+   ```
+   gcc -Wall -Wextra -Werror -o program main.c
+   ```
+   - `-Wall`: Enables all compiler's warning messages.
+   
+   - `-Wextra`: Enables some extra warning flags that are not enabled by `-Wall`.
+   
+   - `-Werror`: Treats all warnings as errors.
+   
+   - `-o program`: Specifies the output file name.
+
+5. Run the compiled program:
+   ```
+   ./program
+   ```
+
+## Example `main.c`
+
+```
+#include "ft.h"
+#include <unistd.h> // For the write function
+
+void ft_putchar(char c) {
+    write(1, &c, 1);
+}
+
+void ft_swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void ft_putstr(char *str) {
+    while (*str) {
+        ft_putchar(*str++);
+    }
+}
+
+int ft_strlen(char *str) {
+    int len = 0;
+    while (*str++) {
+        len++;
+    }
+    return len;
+}
+
+int ft_strcmp(char *s1, char *s2) {
+    while (*s1 && (*s1 == *s2)) {
+        s1++;
+        s2++;
+    }
+    return *(unsigned char *)s1 - *(unsigned char *)s2;
+}
+
+int main() {
+    char str[] = "Hello, world!";
+    int a = 5, b = 10;
+
+    ft_putstr(str);
+    ft_putchar('\n');
+
+    ft_swap(&a, &b);
+    ft_putstr("Swapped values: ");
+    ft_putchar(a + '0'); // Convert int to char
+    ft_putchar(' ');
+    ft_putchar(b + '0');
+    ft_putchar('\n');
+
+    ft_putstr("Length of the string: ");
+    ft_putchar(ft_strlen(str) + '0');
+    ft_putchar('\n');
+
+    ft_putstr("Comparing strings: ");
+    ft_putchar(ft_strcmp("abc", "abd") + '0');
+    ft_putchar('\n');
+
+    return 0;
+}
+---

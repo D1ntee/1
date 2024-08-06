@@ -1,0 +1,8 @@
+3
+and 9
+
+flag was 3, after decrementation becomes 2, 1, 0.
+so now we have flag = 0 which = 6 in vmax[0] and 0 in v[0];
+base = ++(v[4]) = 5;
+
+

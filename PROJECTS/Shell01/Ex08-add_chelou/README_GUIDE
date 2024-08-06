@@ -1,0 +1,13 @@
+
+
+## Readymade envs, write them in the terminal to begin testing:
+
+Example 1:
+
+export FT_NBR1=\\\'\?\"\\\"\'\\
+export FT_NBR2=rcrdmddd
+
+Example 2:
+
+export FT_NBR1=\\\"\\\"\!\\\"\\\"\!\\\"\\\"\!\\\"\\\"\!\\\"\\\"\!\\\"\\\"                                   
+export FT_NBR2=dcrcmcmooododmrrrmorcmcrmomo

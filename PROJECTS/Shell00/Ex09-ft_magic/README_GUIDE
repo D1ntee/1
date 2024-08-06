@@ -1,0 +1,100 @@
+# Understanding `file` command and `-m` option (aka magicfile)
+
+## Overview
+
+This document provides detailed explanations and usage examples for the `file` command and `-m` option, plus how to create and use a custom magic file.
+
+## `file` Command
+
+The `file` command is used to determine the type of a file based on its content rather than its extension. It does this by checking the file's content against known patterns defined in a magic file.
+
+### Syntax
+
+file [options] filename
+
+### Example
+
+To identify the type of a file:
+
+1. **Open the terminal**.
+2. Run the following command:
+
+   file /path/to/your/file
+
+   **Example:**
+
+   file /bin/ls
+
+   **Output:**
+
+   /bin/ls: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=7ad16b5c88e25e258d5ab7c57a4c0a41de8c4c1b, stripped
+
+## `magic` File
+
+A magic file contains patterns used by the `file` command to identify file types. It specifies what content should be checked at which offset within the file and what the expected values are.
+
+### Structure of a Magic File
+
+1. **Offset**: Position in the file where the test should be applied.
+2. **Type**: The type of data at that offset (e.g., string, byte).
+3. **Value**: The value to be matched.
+4. **Description**: The description of the file type if the pattern matches.
+
+### Example Magic File Content
+
+Create a file named `mymagic` with the following content:
+
+0       string      GIF89a           GIF image
+0       string      GIF87a           GIF image
+0       string      \x89PNG\r\n\x1a\n        PNG image
+
+### Creating and Using a Magic File
+
+1. **Open the terminal**.
+2. **Create and edit the magic file with Vim**:
+
+   vim mymagic
+
+3. **Add the following content to `mymagic`**:
+
+   0       string      GIF89a           GIF image
+   0       string      GIF87a           GIF image
+   0       string      \x89PNG\r\n\x1a\n PNG image
+
+4. **Save and exit Vim**:
+   - Press `Esc` to enter command mode.
+   - Type `:wq` and press `Enter`.
+
+5. **Use the magic file with the `file` command**:
+
+   the magic file should be compiled before execution:
+   
+   using this command line:
+   
+   file -C -m mymagic
+   
+   -C this option (capitalized C and means compile) is used to compile your magic file and create a magic.mgc output file that contains a pre-parsed version of the magic file or directory.
+   
+   back to execution: 
+   
+   file -m mymagic /path/to/your/file (or the file name of the file you want to check if you are in the desired directory)
+
+   **Example:**
+
+   file -m mymagic image.gif
+
+   **Output:**
+
+   image.gif: GIF image
+   
+
+## Summary
+
+- **`file` Command**: Determines the type of a file based on its content.
+- **Magic File**: Contains patterns used by the `file` command to recognize different file types.
+
+For further customization and advanced usage, refer to the `file` command’s manual page:
+
+man file
+
+

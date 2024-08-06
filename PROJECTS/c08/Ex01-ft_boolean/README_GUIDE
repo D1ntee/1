@@ -1,0 +1,172 @@
+---
+
+# ft_boolean.h Project
+
+## Purpose:
+
+This project demonstrates the use of boolean values and conditional statements in C to determine if the number of command-line arguments passed to the program is even or odd. The program outputs a specific message based on this determination.
+
+## Files:
+
+### Header File: `ft_boolean.h`
+
+This header file defines a custom boolean type and related macros for use in the program.
+
+```
+#ifndef FT_BOOLEN
+#define FT_BOOLEN
+
+typedef int t_bool;
+
+#define TRUE 1
+#define FALSE 0
+#define EVEN_MSG "I have an even number of arguments.\n"
+#define ODD_MSG "I have an odd number of arguments.\n"
+#define EVEN(nbr)(nbr % 2 == 0)
+#define SUCCESS 0
+
+#endif
+```
+
+#### Explanation
+
+- `typedef int t_bool;`: Defines `t_bool` as an alias for `int`, representing boolean values.
+
+- `#define TRUE 1`: Macro representing the boolean value `TRUE`.
+
+- `#define FALSE 0`: Macro representing the boolean value `FALSE`.
+
+- `#define EVEN_MSG "I have an even number of arguments.\n"`: Macro for the message displayed when the number of arguments is even.
+
+- `#define ODD_MSG "I have an odd number of arguments.\n"`: Macro for the message displayed when the number of arguments is odd.
+
+- `#define EVEN(nbr)(nbr % 2 == 0)`: Macro to check if a number is even.
+
+- `#define SUCCESS 0`: Macro representing the success status code.
+
+### Source File: `ft_is_even.c`
+
+This source file contains the main logic of the program.
+
+```
+#include <unistd.h>
+#include "ft_boolean.h"
+
+void ft_putstr(char *str){
+    while (*str){
+        write(1, str++, 1);
+    }
+}
+
+t_bool ft_is_even(int nbr){
+    return ((EVEN(nbr)) ? TRUE : FALSE);
+}
+
+int main(int argc, char **argv){
+    (void)argv;
+
+    if (ft_is_even(argc - 1) == TRUE){
+        ft_putstr(EVEN_MSG);
+    } else {
+        ft_putstr(ODD_MSG);
+    }
+
+    return (SUCCESS);
+}
+```
+
+#### Explanation
+
+- `#include <unistd.h>`: Includes the `unistd.h` header for the `write` function.
+
+- `#include "ft_boolean.h"`: Includes the custom `ft_boolean.h` header file.
+
+**Function: `ft_putstr`**
+
+```
+void ft_putstr(char *str){
+    while (*str){
+        write(1, str++, 1);
+    }
+}
+```
+
+- **Purpose**: Outputs a string to the standard output.
+
+- **Explanation**:
+
+  - `while (*str)`: Iterates through each character in the string.
+  - `write(1, str++, 1)`: Writes the current character to the standard output and moves to the next character.
+
+**Function: `ft_is_even`**
+
+```
+t_bool ft_is_even(int nbr){
+    return ((EVEN(nbr)) ? TRUE : FALSE);
+}
+```
+
+- **Purpose**: Determines if a number is even.
+
+- **Explanation**:
+
+  - `return ((EVEN(nbr)) ? TRUE : FALSE)`: Uses the `EVEN` macro to check if the number is even. Returns `TRUE` if even, otherwise `FALSE`.
+
+**Function: `main`**
+
+```
+int main(int argc, char **argv){
+    (void)argv;
+
+    if (ft_is_even(argc - 1) == TRUE){
+        ft_putstr(EVEN_MSG);
+    } else {
+        ft_putstr(ODD_MSG);
+    }
+
+    return (SUCCESS);
+}
+```
+
+- **Purpose**: The entry point of the program.
+
+- **Explanation**:
+
+  - `(void)argv;`: Avoids unused parameter warning.
+  
+  - `if (ft_is_even(argc - 1) == TRUE)`: Checks if the number of arguments (excluding the program name) is even.
+  
+  - `ft_putstr(EVEN_MSG)`: Outputs the even message if true.
+  
+  - `else`: Outputs the odd message if false.
+  
+  - `return (SUCCESS)`: Returns the success status code.
+
+## How to Compile and Run
+
+To compile and run this program, use the following commands in the terminal:
+
+1. Compile the code:
+   ```
+   gcc -Wall -Wextra -Werror -o ft_boolean main.c
+   ```
+
+2. Run the program:
+   ```
+   ./ft_boolean [arguments]
+   ```
+
+   Replace `[arguments]` with any number of arguments to test the program's output.
+
+### Example
+
+```
+./ft_boolean arg1 arg2
+```
+
+Output:
+```
+I have an even number of arguments.
+```
+
+---

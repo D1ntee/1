@@ -1,0 +1,140 @@
+
+# Project: Listing User Groups with Custom Formatting
+
+## Overview
+
+This project involves creating a shell script that lists the groups a specified user belongs to. The user’s username is provided via an environment variable, `FT_USER`. The script formats the output as a comma-separated list without trailing newlines.
+
+## Concepts Covered
+
+### Environment Variables
+
+- **Definition**: Environment variables are dynamic values that affect the execution environment of processes. They are used to pass information between processes and scripts.
+- **Usage**: In this exercise, `FT_USER` is used to specify the username for which the groups are to be listed.
+
+### Shell Scripting
+
+- **Shebang (`#!/bin/sh`)**: The shebang at the beginning of the script indicates that the script should be executed using the `sh` shell.
+- **`id` Command**: Retrieves user information, including group memberships.
+- **`tr` Command**: Translates or deletes characters in the output.
+
+## Exercise Steps
+
+1. **Create the Script**
+
+   Create a shell script inside `print_groups.sh`(use vim or nano or your fav text editor). This script will use the `id` command to list the groups of a user and format the output.
+
+   ```below is the expected content (2 lines of #! bin... and id...) in your file, and make sure to specify the environment variable FT_USER in the terminal beforehand,,,
+   
+   #!/bin/sh
+
+-Retrieve groups for the user specified by FT_USER with this command as specified in the project:
+   
+   id -nG $FT_USER | tr ' ' ',' | tr -d '\n'
+
+2. **Script Explanation**
+
+   - **Shebang (`#!/bin/sh`)**: Specifies the script should be run with the `sh` shell.
+   
+   - **`id -nG $FT_USER`**: Lists the group names for the user specified by the `FT_USER` environment variable.
+   - **`tr ' ' ','`**: Translates spaces into commas to create a comma-separated list of groups.
+   
+   - **`tr -d '\n'`**: Removes any newline characters to ensure the output is a single line without trailing newlines.
+
+3. **Make the Script Executable**
+
+   Before running the script, ensure it is executable:
+
+   ```type in the terminal
+   
+   chmod +x print_groups.sh
+   ```
+
+4. **Run the Script**
+
+   To execute the script, set the `FT_USER` environment variable and then run the script:
+
+   ```TYPE IN THE TERMINAL
+   
+   export FT_USER=<username>
+   ./print_groups.sh
+   ```
+
+   Replace `<username>` with the actual username you wish to query.
+
+## Examples
+
+### Example 1: User `nours`
+
+- **Set Environment Variable**:
+  ```TYPE IN THE TERMINAL
+  export FT_USER=nours
+  ```
+
+- **Run Script**:
+  ```TYPE IN THE TERMINAL
+  ./print_groups.sh
+  ```
+
+- **Expected Output**:
+  ```
+  god,root,admin,master,nours,bocal
+  ```
+
+### Example 2: User `daemon`
+
+- **Set Environment Variable**:
+  ```TYPE IN THE TERMINAL
+  export FT_USER=daemon
+  ```
+
+- **Run Script**:
+  
+  ./print_groups.sh
+  
+
+- **Expected Output**:
+  
+  daemon,bin
+  
+
+### Example 3: User `johndoe`
+
+- **Set Environment Variable**:
+  ```TYPE IN THE TERMINAL:
+  
+  export FT_USER=johndoe
+  ```
+
+- **Run Script**:
+
+  ./print_groups.sh
+ 
+
+- **Expected Output**:
+  ```text
+  users,developers
+  ```
+
+## Detailed Command Breakdown
+
+### `id -nG $FT_USER`
+
+- **Purpose**: Retrieves a list of group names for the user specified by the `FT_USER` environment variable.
+- **Output**: Space-separated list of group names.
+
+### `tr ' ' ','`
+
+- **Purpose**: Translates spaces into commas, converting the space-separated list into a comma-separated list.
+- **Output**: Comma-separated list of group names.
+
+### `tr -d '\n'`
+
+- **Purpose**: Removes newline characters from the output to ensure that the result is a single continuous line.
+- **Output**: Comma-separated list of group names without trailing newlines.
+
+## Summary
+
+This exercise demonstrates how to use environment variables in a script, retrieve user group information, and format the output. The use of `tr` to translate spaces into commas and remove newlines ensures that the output meets specific formatting requirements.
+```
+

@@ -1,0 +1,151 @@
+## How the Program Works Step-by-Step
+
+1. **Receive Input:**
+   - The program starts with command-line arguments, including the program name and the arguments to be sorted.
+
+2. **Sort Arguments:**
+   - `ft_sort_args` sorts the arguments in ASCII order using bubble sort:
+     - In each pass, it compares adjacent elements and swaps them if necessary.
+     - Repeats the process until the entire list is sorted.
+
+3. **Print Sorted Arguments:**
+   - After sorting, `main` prints each sorted argument, starting from `argv[1]` to exclude the program name.
+
+4. **Output:**
+   - Each argument is printed on a new line, showing the sorted order based on ASCII values.
+   
+##
+
+This program sorts command-line arguments in ASCII order and prints each one on a new line, excluding the program name. It uses `while` loops and the `write` function for output. This README provides a detailed explanation of how the program works, focusing on the code and the underlying concepts.
+
+## Compilation
+
+To compile the program, use the GCC compiler. Open your terminal and run the following command:
+
+```type in the terminal
+
+gcc -Wall -Wextra -Werror ft_sort_params.c -o sort_params
+
+```
+
+This command compiles the `ft_sort_params.c` file into an executable named `sort_params`.
+
+## Usage
+
+After compiling, run the program with various command-line arguments. Here are some examples:
+
+### Example 1: Basic Words
+
+```type in the terminal
+
+./sort_params banana apple cherry
+
+```
+
+**Expected Output:**
+```
+apple
+banana
+cherry
+```
+
+### Example 2: Words with Symbols
+
+```TYPE IN THE TERMINAL:
+
+./sort_params banana apple cherry "@pple" "Banana!" "ch3rry" "#fruit" "42" "!" "banana-apple"
+
+```
+
+**Expected Output:**
+```
+!
+#fruit
+42
+@pple
+Banana!
+apple
+banana
+banana-apple
+ch3rry
+cherry
+```
+
+## Code Explanation:
+
+### 1. `ft_putstr`
+
+**Purpose:** Prints a string followed by a newline.
+
+**How it works:**
+
+- **Loop through characters:** 
+
+  - The `while` loop iterates over each character of the string.
+  
+  - `write(1, str, 1)` outputs one character at a time to the standard output.
+  
+  - `str++` moves the pointer to the next character.
+  
+- **Add newline:** After the loop, `write(1, "\n", 1)` writes a newline character to ensure each argument is printed on a new line.
+
+### 2. `ft_strcmp`
+
+**Purpose:** Compares two strings lexicographically (ASCII order).
+
+**How it works:**
+- **Compare characters:**
+
+  - The `while` loop compares corresponding characters of both strings.
+  
+  - If characters are equal, the pointers `s1` and `s2` are incremented to compare the next characters.
+  
+  - If characters differ, the function returns the difference between their ASCII values.
+  
+- **End of string handling:**
+
+  - If one string ends (`'\0'`), the remaining characters in the other string determine the result.
+  
+  - This function is used to determine the order of strings during sorting.
+
+### 3. `ft_sort_args`
+
+**Purpose:** Sorts command-line arguments using bubble sort.
+
+**How it works:**
+
+- **Initialization:**
+
+  - `i` starts from 1 (to skip the program name) and iterates through the arguments.
+  
+- **Bubble sort logic:**
+
+  - **Outer loop:** Ensures the sorting passes through the list enough times (`i` from 1 to `argc-1`).
+  
+  - **Inner loop:** Compares each argument with the next (`j` from 1 to `argc-1`).
+  
+  - **Comparison and swapping:**
+  
+    - `ft_strcmp(argv[j], argv[j + 1])` is used to compare adjacent arguments.
+    
+    - If `argv[j]` is greater than `argv[j + 1]` (i.e., `ft_strcmp` returns a positive value), they are swapped.
+    
+    - This process bubbles the largest unsorted element to its correct position at the end of each pass.
+    
+- **Result:** After all passes, the arguments are sorted in ascending ASCII order.
+
+### 4. `main`
+
+**Purpose:** Entry point of the program; coordinates sorting and printing.
+
+**How it works:**
+
+- **Sort arguments:**
+  - `ft_sort_args(argv, argc)` is called to sort the arguments.
+  
+- **Print sorted arguments:**
+  - A `while` loop iterates from `argv[1]` to `argv[argc-1]`.
+  - Each argument is printed using `ft_putstr`.
+  - This loop ensures each argument is output on a new line.
+
+

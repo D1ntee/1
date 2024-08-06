@@ -1,0 +1,133 @@
+
+# Display Every Other Line Starting from the First Line
+
+## Overview
+
+This README provides instructions on how to use the `awk` command to display every other line from the output of `ls -l`, starting from the first line. Additionally, it includes an alternative method using `sed` to achieve the same result.
+
+## Objective
+
+The goal is to use `awk` to print every other line from the output of `ls -l`, beginning with the first line. This is useful for filtering and processing command output when you need to view or manipulate alternating lines.
+
+## Command
+
+To display every other line starting from the first line, use the following command:
+
+```
+ls -l | awk 'NR % 2 == 1'
+```
+
+### Breakdown of the Command
+
+- `ls -l`: Lists files and directories in the current directory in long format, showing detailed information about each file.
+- `|`: Pipes the output of the `ls -l` command into the `awk` command.
+- `awk 'NR % 2 == 1'`: Filters the output to display lines with odd line numbers. `NR` is the built-in `awk` variable representing the current record number (line number). `NR % 2 == 1` ensures that only lines with odd line numbers are printed.
+
+## Explanation of `awk`
+
+`awk` is a powerful text-processing programming language used for pattern scanning and processing. It operates on a per-line basis, reading input line by line, and performs operations based on patterns and actions specified in the `awk` script.
+
+- **`NR`**: A built-in variable in `awk` that stands for "Number of Records." It keeps track of the current line number.
+- **`NR % 2 == 1`**: This condition checks if the line number is odd. `%` is the modulus operator, which returns the remainder of division. If `NR % 2` equals `1`, then the line number is odd.
+
+`awk` scripts typically follow this pattern:
+
+```
+awk 'pattern { action }'
+```
+
+Where `pattern` specifies the condition for processing lines, and `action` specifies what to do when the pattern is matched.
+
+For more details on `awk`, refer to its man page:
+
+```
+man awk
+```
+
+## Alternative Command Using `sed`
+
+You can achieve the same result using the `sed` command. To display every other line starting from the first line, use the following command:
+
+```
+ls -l | sed -n 'p;n'
+```
+
+### Breakdown of the Command
+
+- `ls -l`: Lists files and directories in long format.
+- `|`: Pipes the output into `sed`.
+- `sed -n 'p;n'`: Processes the input with `sed` where:
+  - `-n`: Suppresses automatic printing of lines.
+  - `'p;n'`: The `p` command prints the current line, and `n` skips the next line. As a result, every other line starting from the first line is printed.
+
+For more details on `sed`, refer to its man page:
+
+```
+man sed
+```
+
+## Instructions
+
+1. **Open a Terminal**: Launch your terminal emulator.
+2. **Navigate to the Desired Directory**: Use `cd` to change to the directory where you want to list files. For example:
+
+   ```
+   cd /path/to/directory
+   
+   ```
+
+3. **Run the Desired Command**:
+   - For every other line starting from the first line using `awk`:
+
+     ```
+     ls -l | awk 'NR % 2 == 1'
+     ```
+
+   - For the same result using `sed`:
+
+     ```
+     ls -l | sed -n 'p;n'
+     ```
+
+4. **Review the Output**: The output will display every other line starting from the first line in the `ls -l` command output.
+
+## Example
+
+Assume your directory contains the following files:
+
+```text
+file1.txt
+file2.txt
+file3.txt
+file4.txt
+file5.txt
+file6.txt
+```
+
+Running `ls -l` might produce:
+
+```text
+total 4
+-rw-r--r-- 1 user group 1234 Jul 24 12:00 file1.txt
+-rw-r--r-- 1 user group 5678 Jul 24 12:01 file2.txt
+-rw-r--r-- 1 user group 9101 Jul 24 12:02 file3.txt
+-rw-r--r-- 1 user group 1121 Jul 24 12:03 file4.txt
+-rw-r--r-- 1 user group 1314 Jul 24 12:04 file5.txt
+-rw-r--r-- 1 user group 1516 Jul 24 12:05 file6.txt
+```
+
+Using `ls -l | awk 'NR % 2 == 1'` or `ls -l | sed -n 'p;n'` will yield:
+
+```text
+total 4
+-rw-r--r-- 1 user group 1234 Jul 24 12:00 file1.txt
+-rw-r--r-- 1 user group 9101 Jul 24 12:02 file3.txt
+-rw-r--r-- 1 user group 1314 Jul 24 12:04 file5.txt
+```
+
+## Notes
+
+- Both `awk` and `sed` are versatile text-processing tools available on most Unix-like systems.
+- Ensure that `awk` and `sed` are installed and available on your system. Most Unix-like systems include these utilities by default.
+
+---

@@ -1,0 +1,171 @@
+---
+
+# String Join and Length Calculation
+
+## Overview
+
+This program demonstrates how to concatenate an array of strings with a specified separator and compute the total length of the concatenated string. The implementation is divided into three primary functions:
+
+1. `ft_putstr` - Outputs a string to the standard output.
+2. `ft_strlen` - Computes the total length of all strings in an array, including separators.
+3. `ft_strjoin` - Concatenates an array of strings into a single string with a separator between each.
+
+## Function Descriptions
+
+### `void ft_putstr(char *str)`
+
+Prints the string `str` to the standard output using the `write` system call.
+
+#### Parameters:
+- `char *str`: A pointer to the string to be printed.
+
+#### How It Works:
+1. **Initialization**: The function initializes an index variable `i` to zero.
+2. **Character Output**: It enters a `while` loop that continues until the null terminator `'\0'` is encountered in the string.
+   - Inside the loop, it uses `write(1, &str[i], 1)` to print each character to the standard output.
+   - `write` is a low-level I/O function that writes directly to file descriptors. Here, `1` is the file descriptor for standard output.
+   - The character at `str[i]` is printed, and `i` is incremented to move to the next character.
+3. **Termination**: The loop terminates when `str[i]` is `'\0'`, signifying the end of the string.
+
+#### Example:
+```c
+char *message = "apple,banana,tomato,melon,orange";
+ft_putstr(message); // Output: apple,banana,tomato,melon,orange
+```
+
+### `int ft_strlen(int size, char **strs, char *sep)`
+
+Calculates the total length of all strings in the array `strs`, including the lengths of separators.
+
+#### Parameters:
+- `int size`: Number of strings in the array.
+- `char **strs`: Array of pointers to the strings.
+- `char *sep`: Separator string.
+
+#### Returns:
+- `int`: Total length of the concatenated string including separators.
+
+#### How It Works:
+1. **Initialization**: The function initializes index variables `i`, `j`, `s`, and `length` to zero.
+2. **String Length Calculation**:
+   - Iterates over each string in the `strs` array with the outer `while` loop.
+   - For each string, it calculates its length using an inner `while` loop.
+   - If it's not the last string in the array, it adds the length of the separator to `length`.
+3. **Result**: The function returns the total length, which is the sum of lengths of all strings and separators.
+
+#### Example:
+For the input:
+```c
+char *strings[] = {"apple", "banana", "tomato", "melon", "orange"};
+char *separator = ",";
+int length = ft_strlen(5, strings, separator); // Length of "apple,banana,tomato,melon,orange"
+```
+`length` will be `34`.
+
+### `char *ft_strjoin(int size, char **strs, char *sep)`
+
+Concatenates the array of strings `strs` with the separator `sep` between each string and returns the resulting concatenated string.
+
+#### Parameters:
+- `int size`: Number of strings in the array.
+- `char **strs`: Array of string pointers.
+- `char *sep`: Separator string.
+
+#### Returns:
+- `char *`: Pointer to the newly allocated concatenated string.
+
+#### How It Works:
+1. **Empty Case**:
+   - If `size` is zero, it allocates and returns an empty string.
+2. **Memory Allocation**:
+   - Calls `ft_strlen` to get the required length for the resulting string.
+   - Allocates memory for `arr` to store the concatenated result.
+3. **String Concatenation**:
+   - Iterates over each string and copies its characters to `arr`.
+   - Inserts the separator between strings if it's not the last string.
+   - Adds the null terminator `'\0'` at the end of `arr`.
+4. **Return Result**:
+   - Returns the pointer to the concatenated string.
+
+#### Example:
+For the input:
+```
+int size = 5;
+
+char *sep = ",";
+
+char *strs[5] = {"apple", "banana", "tomato", "melon", "orange"};
+
+char *result = ft_strjoin(size, strs, sep);
+
+// result points to "apple,banana,tomato,melon,orange"
+```
+
+### `int main(void)`
+
+Demonstrates the usage of `ft_putstr` and `ft_strjoin`.
+
+#### How It Works:
+
+1. **Initialization**:
+   - Sets `size` to 5, indicating the number of strings in the `strs` array.
+   - Sets `sep` to the separator string `","`.
+   - Initializes an array of strings `strs` with 5 fruit names.
+2. **Function Call**:
+
+   - Calls `ft_strjoin` to concatenate the strings with the separator.
+   - Passes the result to `ft_putstr` to print it.
+
+#### Example:
+```
+int size = 5;
+char *sep = ",";
+char *strs[5] = {"apple", "banana", "tomato", "melon", "orange"};
+ft_putstr(ft_strjoin(size, strs, sep));
+
+// Output: apple,banana,tomato,melon,orange
+```
+
+## Compilation and Execution
+
+To compile the code, use the following command:
+
+```
+gcc -Wextra -Werror -Wall -o strjoin ft_strjoin.c
+```
+
+- `-Wextra`: Enables additional warning messages that are not enabled by default.
+- `-Werror`: Treats all warnings as errors, which helps ensure code quality.
+- `-Wall`: Enables all the standard warning messages.
+
+To run the compiled program, execute:
+
+```
+./strjoin
+```
+
+## Explanation of Key Concepts
+
+### Memory Allocation
+
+- **Dynamic Memory**: Uses `malloc` to allocate memory for the resulting concatenated string. It ensures the program can handle strings of varying lengths by allocating memory at runtime.
+- **Error Handling**: Checks for allocation failures and returns `NULL` in case of errors.
+
+### String Handling
+
+- **Character-by-Character Operations**: Uses loops to handle strings character by character, which is essential for manual string manipulation in C.
+- **Separator Management**: Handles the insertion of separators between strings, ensuring correct formatting of the output.
+
+### System Calls
+
+- **`write`**: A low-level system call used for output. It directly interacts with the operating system to write data to file descriptors.
+
+### Error Handling
+
+- **Empty Case Handling**: Handles cases where `size` is zero by returning an empty string. This ensures robustness against edge cases.
+
+## Conclusion
+
+This program demonstrates string concatenation and length calculation in C using fundamental concepts like memory management, string manipulation, and system calls. It provides a robust solution for combining multiple strings with separators and calculating the total length.
+
+---

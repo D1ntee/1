@@ -1,0 +1,98 @@
+
+# r_dwssap.sh - A Shell Script to Process `/etc/passwd`
+
+## Overview
+
+This shell script processes the contents of the `/etc/passwd` file to generate a formatted list of login names. The script performs the following operations:
+
+1. **Removes Comments**: Deletes lines starting with `#`.
+2. **Selects Every Other Line**: Starts from the second line.
+3. **Reverses Each Login Name**: Reverses the order of characters in each login.
+4. **Sorts in Reverse Alphabetical Order**: Sorts the reversed login names in reverse order.
+5. **Filters by Line Range**: Keeps only logins between the line numbers specified by `FT_LINE1` and `FT_LINE2`.
+6. **Formats the Output**: Separates logins with ", " and appends a period `.` at the end.
+
+## Usage
+
+1. **Set Environment Variables:**
+   Before running the script, set the environment variables `FT_LINE1` and `FT_LINE2` to define the range of lines to include.
+
+   ```bash
+   export FT_LINE1=7
+   export FT_LINE2=15
+   ```
+
+2. **Run the Script:**
+
+   ```bash
+   ./r_dwssap.sh
+   ```
+
+## Script Contents
+
+Here is the complete content of the `r_dwssap.sh` script, formatted as a single line:
+
+```sh
+#!/bin/sh cat /etc/passwd | sed '/#/d' | awk 'NR%2==0' | cut -d':' -f1 | rev | sort -r | awk 'NR >= ENVIRON["FT_LINE1"] && NR <= ENVIRON["FT_LINE2"]' | tr '\n' ' ' | sed 's/ /, /g' | rev | cut -c 3- | rev | sed 's/$/./'
+```
+
+### Explanation of Each Command:
+
+1. **`cat /etc/passwd`**:
+   - Reads the contents of the `/etc/passwd` file.
+
+2. **`sed '/#/d'`**:
+   - Deletes lines containing comments (lines starting with `#`).
+
+3. **`awk 'NR%2==0'`**:
+   - Selects every other line, starting from the second line (even-numbered lines).
+
+4. **`cut -d':' -f1`**:
+   - Extracts the login names from the `/etc/passwd` file.
+
+5. **`rev`**:
+   - Reverses each login name.
+
+6. **`sort -r`**:
+   - Sorts the reversed login names in reverse alphabetical order.
+
+7. **`awk 'NR >= ENVIRON["FT_LINE1"] && NR <= ENVIRON["FT_LINE2"]'`**:
+   - Filters the logins to keep only those within the specified line range.
+
+8. **`tr '\n' ' '`**:
+   - Replaces newlines with spaces to create a single line of logins.
+
+9. **`sed 's/ /, /g'`**:
+   - Replaces spaces with `, ` to format the logins as a comma-separated list.
+
+10. **`rev | cut -c 3- | rev`**:
+    - Reverses the formatted string to remove trailing characters (extra comma and space) and then reverses it back to restore the correct order.
+
+11. **`sed 's/$/./'`**:
+    - Appends a period `.` to the end of the final output.
+
+## Example
+
+Given the environment variable settings:
+
+```
+export FT_LINE1=7
+export FT_LINE2=15
+```
+
+Running the script would produce output similar to:
+
+```
+sstq_, sorebrek_brk_, soibten_, sergtsop_, scodved_, rlaxcm_, rgmecived_, revreswodniw_, revressta_.
+```
+
+## Notes
+
+- Ensure the script has execute permissions. You can set this with:
+  ```
+  chmod +x r_dwssap.sh
+  ```
+- Make sure to set the environment variables `FT_LINE1` and `FT_LINE2` according to the desired line range before executing the script.
+
+---
+

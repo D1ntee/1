@@ -1,0 +1,166 @@
+---
+
+# Base Conversion Program - ft_convert_base.c & ft_convert_base2.c combined.
+
+## Overview
+
+This program converts a number from one base to another base. It supports various bases, including decimal and hexadecimal. The program consists of several functions that handle base validation, string conversion, and base-to-base conversion.
+
+## Function Descriptions:
+
+---### in ft_convert_base2.c file:
+
+### `int ft_strlen(char *base)`
+
+**Purpose:** Calculates the length of a given string.
+
+**Parameters:**
+- `base`: A pointer to the string whose length is to be computed.
+
+**Returns:** The length of the string excluding the null terminator.
+
+**Details:**
+- Initializes `length` to 0.
+- Iterates through the string until it reaches the null terminator, incrementing `length` at each step.
+- Returns the computed length.
+
+### `int ft_isvalid_base(char *base)`
+
+**Purpose:** Checks if a given base string is valid for base conversion.
+
+**Parameters:**
+- `base`: A pointer to the base string to be validated.
+
+**Returns:** 
+- `1` if the base is valid.
+- `0` if the base is invalid.
+
+**Details:**
+- Calculates the length of the base string.
+- Checks for the presence of invalid characters (`+`, `-`, control characters, and 127).
+- Ensures there are no duplicate characters in the base string.
+- Returns `1` if all checks pass, otherwise returns `0`.
+
+### `int ft_strvalue(char c, char *base)`
+
+**Purpose:** Finds the index of a character in the base string.
+
+**Parameters:**
+- `c`: The character to find.
+- `base`: The base string to search in.
+
+**Returns:** The index of the character in the base string.
+
+**Details:**
+- Iterates through the base string to find the index of the character `c`.
+- Returns the index if found; otherwise returns the length of the base string (indicating not found).
+
+### `char *ft_conv(int nbr, char *base)`
+
+**Purpose:** Converts an integer number to a string representation in a specified base.
+
+**Parameters:**
+- `nbr`: The integer number to convert.
+- `base`: The base string to use for conversion.
+
+**Returns:** A dynamically allocated string representing the number in the given base.
+
+**Details:**
+- Computes the length of the base string and determines the length of the resulting string.
+- Allocates memory for the result string.
+- Converts the number to its base representation by repeatedly dividing by the base length and storing remainders.
+- Handles negative numbers by converting the absolute value and prefixing a minus sign.
+- Returns the resulting string.
+
+
+---### in ft_convert_base.c file:
+
+
+### `char *ft_convert_base(char *nbr, char *base_from, char *base_to)`
+
+**Purpose:** Converts a number string from one base to another.
+
+**Parameters:**
+- `nbr`: The number string in the source base.
+- `base_from`: The base string of the source base.
+- `base_to`: The base string of the destination base.
+
+**Returns:** A dynamically allocated string representing the number in the destination base.
+
+**Details:**
+- Validates both source and destination base strings.
+- Skips leading whitespace and handles optional signs.
+- Converts the number from the source base to decimal.
+- Uses `ft_conv` to convert the decimal number to the destination base.
+- Returns the resulting string.
+
+### `int main(void)`
+
+**Purpose:** Demonstrates the usage of `ft_convert_base`.
+
+**Details:**
+- Defines example inputs for testing: `nbr`, `base_from`, and `base_to`.
+- Calls `ft_convert_base` to perform the conversion.
+- Prints the result to the standard output using `write`.
+- Frees the dynamically allocated memory for the result string.
+
+## Compilation Instructions:
+
+To compile the program, use the following command:
+
+```
+gcc -Wall -Wextra -Werror -o base_conversion base_conversion.c
+```
+
+**Flags:**
+- `-Wall`: Enables all compiler's warning messages.
+- `-Wextra`: Enables additional warning messages not covered by `-Wall`.
+- `-Werror`: Treats all warnings as errors, ensuring code is free of warnings.
+
+## Example Usage
+
+Given the input:
+
+- `nbr`: `"123"`
+- `base_from`: `"0123456789"`
+- `base_to`: `"0123456789ABCDEF"`
+
+The program will convert `123` from decimal to hexadecimal and output `7B`.
+
+## NOTES:
+
+### Variables
+
+- **`length`**: Stores the length of a string in `ft_strlen`.
+
+- **`i`, `j`**: Indices used in loops for iterating through strings.
+
+- **`base_len`**: Length of the base string used in `ft_isvalid_base` and `ft_conv`.
+
+- **`unbr`**: Unsigned representation of the number used in `ft_conv`.
+
+- **`len`**: Length of the result string in `ft_conv`.
+
+- **`temp`**: Temporary variable used for computing the length of the number in `ft_conv`.
+
+- **`integer`**: Decimal representation of the number in `ft_convert_base`.
+
+- **`value`**: Index of a character in the base string used in `ft_convert_base`.
+
+- **`cn`**: Pointer to the result string in `ft_convert_base`.
+
+### Loops
+
+- **`while (base[length] != '\0')`**: Iterates through the string to calculate its length.
+
+- **`while (i < base_len)`**: Checks each character in the base string for validity.
+
+- **`while (c != base[i])`**: Finds the index of a character in the base string.
+
+- **`while (temp)`**: Computes the length of the number in the specified base.
+
+- **`while (unbr > 0)`**: Converts the number to the specified base representation.
+
+- **`while (nbr[i] != '\0')`**: Converts the number string from the source base to decimal.
+
+---

@@ -1,0 +1,130 @@
+
+# Finding and Listing `.sh` Files Without `.sh` Extension
+
+## Overview
+
+This guide will walk you through creating a shell script that uses the `find` command to locate all `.sh` files in a directory and then display their filenames without the `.sh` extension.
+
+## Command Breakdown
+
+### Command
+
+```TYPE IN THE TERMINAL OR PUT IT INSIDE YOUR .SH FILE
+
+find . -type f -iname "*.sh" -exec basename {} .sh ';'
+
+```
+
+### Explanation
+
+- **`find .`**: This initiates a search starting from the current directory (`.`). You can replace `.` with any directory path where you want to start the search.
+
+- **`-type f`**: This option tells `find` to include only files in the search results (excluding directories).
+
+- **`-iname "*.sh"`**: This searches for files with the `.sh` extension, and `-iname` makes the search case-insensitive. It matches files like `script.sh`, `Script.SH`, and `SCRIPT.sh`.
+
+- **`-exec`**: This option allows you to execute a command on each file that `find` matches. 
+
+- **`basename {}`**: This command is executed for each file found. `basename` strips the directory path and can also remove a specified suffix from the filename.
+  - **`{}`**: This is a placeholder used by `-exec` that represents each file found. It is replaced by the actual file path when the command is executed.
+
+- **`.sh`**: This is the suffix to remove from each filename. `basename` will strip `.sh` from the end of each filename.
+
+- **`;`**: This terminates the `-exec` command. use single quotes around it or a preceding backslash \; so the interpreter won't treat it as a command seperator.
+
+## Instructions
+
+### Step 1: Create the Shell Script
+
+1. **Open Your Text Editor**: You need to create a new shell script file. You can use `vim`, `nano`, or any text editor of your choice. Here’s how to use `vim`:
+
+   - Open your terminal.
+   - Type the following command and press `Enter` to create and edit a new script file named `print_basename.sh`:
+
+     ```bash
+     vim print_basename.sh
+     ```
+
+2. **Enter the Script Content**:
+   - In the text editor, enter the following script content:
+
+     ```bash
+     #!/bin/sh
+
+     find . -type f -iname "*.sh" -exec basename {} .sh \;
+     ```
+
+   - This script finds all files with the `.sh` extension in the current directory and its subdirectories and then uses `basename` to remove the `.sh` suffix from each filename.
+
+3. **Save and Exit**:
+   - If you’re using `vim`:
+     - Press `Esc` to enter command mode.
+     - Type `:wq` and press `Enter` to save the file and exit the editor.
+   - If you’re using `nano`:
+     - Press `Ctrl + X` to exit.
+     - Press `Y` to confirm saving the changes.
+     - Press `Enter` to save the file with the given name.
+
+### Step 2: Make the Script Executable
+
+1. **In Your Terminal**:
+   - Navigate to the directory where you saved `print_basename.sh` using the `cd` command. For example:
+
+     ```type in the terminal
+     
+     cd /path/to/your/directory
+     
+     ```
+
+2. **Change File Permissions**:
+   - Run the following command to make your script executable:
+
+     ```type in terminal
+     
+     chmod +x print_basename.sh
+     ```
+
+   - This command modifies the script’s permissions to allow execution.
+
+### Step 3: Execute the Script
+
+1. **In Your Terminal**:
+   - Run the script by typing:
+
+     ```type in terminal
+     ./print_basename.sh
+     ```
+
+   - This command executes the `print_basename.sh` script.
+
+2. **View the Output**:
+   - The script will display the filenames of all `.sh` files without the `.sh` extension.
+
+### Example
+
+Assume the following files are in your current directory:
+
+```
+script1.sh
+script2.sh
+document.txt
+```
+
+Running the script will output:
+
+```
+script1
+script2
+```
+
+- **`script1`**: The `.sh` suffix is removed.
+- **`script2`**: The `.sh` suffix is removed.
+
+## Summary
+
+- **Command Purpose**: The `find` command with `-exec` is used to locate `.sh` files and remove their `.sh` extension.
+
+- **Script Creation**: Use a text editor to create and edit a script file containing the specified command.
+
+- **Execution**: Make the script executable and run it to obtain filenames without the `.sh` extension.
+
